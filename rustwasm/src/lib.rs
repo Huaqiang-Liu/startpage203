@@ -13,7 +13,7 @@ extern {
     fn alert(s: &str);
 }
 
-#[wasm_bindgen] // 这个宏会将 greet 函数导出到 JavaScript
+#[wasm_bindgen]
 pub fn greet() {
-    alert("Hello, rsa!");
+    alert("Hello, rustwasm!");
 }

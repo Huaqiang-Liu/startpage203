@@ -1,5 +1,5 @@
 [package]
-name = "rsa"
+name = "rustwasm"
 version = "0.1.0"
 authors = ["刘华强 <liu_houqian@stu.pku.edu.cn>"]
 edition = "2018"

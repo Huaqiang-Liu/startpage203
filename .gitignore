@@ -1,2 +1,4 @@
-rust_wasm/.idea
-rust_wasm/target
+rustwasm/.idea
+rustwasm/target
+rustwasm/pkg
+rustwasm/.cargo

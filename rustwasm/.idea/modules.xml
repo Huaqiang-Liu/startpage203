@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../../rsa/rustwasm.iml" filepath="$PROJECT_DIR$/../../rsa/rustwasm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rustwasm.iml" filepath="$PROJECT_DIR$/rustwasm.iml" />
     </modules>
   </component>
 </project>
