@@ -40,10 +40,6 @@ pub fn rsapublickey_to_string(pub_key: &RsaPublicKey) -> Result<String, pkcs1::E
     pkcs1::EncodeRsaPublicKey::to_pkcs1_pem(pub_key, pkcs1::LineEnding::default())
 }
 
-// TODO: 前端要写两种模式：用我的AES和用对方的AES。
-//  前者不生成RSA，要输入对面发来的公钥，生成加密的AES密钥
-//  后者要生成RSA，要显示RSA公钥，输入对面发来的AES key
-
 // 用对方发来的，用我的RSA公钥加密的AES密钥加密数据，加密后的内容的最后12个字节是本次的nonce
 // 先将encrypted_aes用RSA解密得到AES key，然后用AES key加密data
 pub fn encrypt_by_other_aes(encrypted_aes: &[u8], priv_key: &RsaPrivateKey, data: &[u8]) -> Vec<u8> {
@@ -84,4 +80,24 @@ pub fn decrypt_by_my_aes(cipher: &Aes256Gcm, data: &[u8]) -> Vec<u8> {
     let decrypted_data = cipher.decrypt(nonce, &data[..data.len()-12])
         .expect("decryption by my aes failure!");
     decrypted_data
+}
+
+// 由于加密了的AES密钥不都是可见字符，所以传输时会传送形如"140,250," 这样的字符串，需要将其转为字节串，再用到上面两个by_other_aes函数中
+pub fn str_to_encrypted_aes(encrypted_aes_str: &str) -> Vec<u8> {
+    let mut encrypted_aes = Vec::new();
+    let mut num = 0;
+    for c in encrypted_aes_str.chars() {
+        if c == ',' {
+            encrypted_aes.push(num);
+            num = 0;
+        } else if c.is_digit(10) {
+            num = num * 10 + c.to_digit(10).unwrap() as u8;
+        }
+    }
+    encrypted_aes.push(num);
+    encrypted_aes
+}
+
+pub fn encrypted_aes_to_str(encrypted_aes: &[u8]) -> String {
+    encrypted_aes.iter().map(|x| x.to_string()).collect::<Vec<String>>().join(",")
 }

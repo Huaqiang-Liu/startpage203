@@ -1,0 +1,20 @@
+/*通过设置变量来用js函数切换主题颜色
+gpt给的例子：
+:root { 前面的冒号表示这是一个伪类
+  --primary-color: #ffffff;
+  --background-color: #000000;
+  --text-color: #000000;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+  
+button {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+}
+
+
+*/

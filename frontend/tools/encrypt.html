@@ -2,9 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>加密工具</title>
 </head>
+<link rel="stylesheet" href="../style.css"><!--他妈的都用一套样式表算了-->
+<script src="../script/encrypt.js"></script>
 <body>
+<!--TODO: 前端要写两种模式：用我的AES和用对方的AES。
+    前者不生成RSA，要输入对面发来的公钥，生成加密的AES密钥
+    后者要生成RSA，要显示RSA公钥，输入对面发来的AES key-->
+    <div class="topbar">
+        <span
+            onclick="window.location.href='../index.html'">
+            返回主页
+        </span>
+        <span id="fn_switch" onclick="fnSwitch()">
+            <span>1</span><!--这个不显示，记录1用别人的AES0用自己的AES-->
+        </span>
+    </div>
+    <div class="body_block"><!--1时存在，自动产生RSA公钥，复制了发给对面；将对面发回来的加密了的AES密钥粘贴进文本框，点按钮解密-->
+        <div>
+            <span id="my_rsa_pub_key"></span>
+            <button onclick="genRSA()">生成RSA密钥</button>
+            <button onclick="copy('my_rsa_pub_key')">复制</button>
+        </div>
+        <div>
+
+        </div>
+
+    </div>
+    <div class="body_block"><!--0时存在，自动产生AES密钥，-->
+
+    </div>
+
 
 </body>
 </html>
