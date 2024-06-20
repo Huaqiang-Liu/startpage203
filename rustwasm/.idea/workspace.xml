@@ -8,12 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90b994b4-d6d2-494b-bd21-c5a8d9a2c8bd" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/../frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/script/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/script/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/style/encrypt.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/style/index.css" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/tools/encrypt.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/tools/encrypt.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/encrypt.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/encrypt.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +92,7 @@
       <workItem from="1718800284002" duration="68000" />
       <workItem from="1718800396112" duration="43000" />
       <workItem from="1718800964779" duration="122000" />
-      <workItem from="1718801092836" duration="15212000" />
+      <workItem from="1718801092836" duration="15950000" />
     </task>
     <servers />
   </component>
