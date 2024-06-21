@@ -11,15 +11,14 @@
     前者不生成RSA，要输入对面发来的公钥，生成加密的AES密钥————方式0
     后者要生成RSA，要显示RSA公钥，输入对面发来的AES密钥————方式1-->
     <div class="topbar">
-        <span
-            onclick="window.location.href='../index.html'">
+        <span onclick="window.location.href='../index.html'">
             返回主页
         </span>
-        <span id="fn_switch" onclick="fnSwitch()">
-            <span>1</span><!--不显示，记录1用别人的AES0用自己的AES-->
+        <span id="fn_switch" onclick="fnSwitch()">点我切换模式
+            <span id="fn_mode" style="display: none;">1</span><!--不显示，记录1用别人的AES0用自己的AES-->
         </span>
     </div>
-    <div class="body_block"><!--1时存在，自动产生RSA公钥，复制了发给对面；将对面发回来的加密了的AES密钥粘贴进文本框，点按钮解密-->
+    <div class="body_block" id="exist_when_1"><!--1时存在，自动产生RSA公钥，复制了发给对面；将对面发回来的加密了的AES密钥粘贴进文本框，点按钮解密-->
         <div>
             <span id="my_rsa_pub_key">!!!生成好的公钥将显示在这里，生成完成之前请勿点击其它按钮</span>
             <button onclick="copy('my_rsa_pub_key')">复制</button>
@@ -31,10 +30,10 @@
             </div>
             <textarea id="op_aes_key_str"></textarea>
             <button onclick="decryptAESKey()">解密</button>
-            <span class="aes_key" id="1"></span><!--不显示，类型为[u8]-->
+            <span class="aes_key" id="1" style="display: none;"></span><!--不显示，类型为[u8]-->
         </div>
     </div>
-    <div class="body_block"><!--0时存在，自动产生AES密钥，不显示；把对面发来的公钥粘贴在框里，然后加密AES密钥，转换为字符串格式，增加copy按钮-->
+    <div class="body_block" id="exist_when_0"><!--0时存在，自动产生AES密钥，不显示；把对面发来的公钥粘贴在框里，然后加密AES密钥，转换为字符串格式，增加copy按钮-->
         <div class="aes_key_status" id="0"><!--生成完成了在这里显示“已完成”，并填进下面的aes_key-->
             !!!生成AES密钥完成了会在这里提示，生成完成之前请勿点击其它按钮
         </div>
@@ -43,16 +42,31 @@
         <button onclick="encryptAESKey()">加密</button>
         <div id="my_aes_key_str">这里将显示加密后的AES密钥转换为的字符串</div>
         <button onclick="copy('my_aes_key')">复制</button>
-        <span class="aes_key" id="0"></span><!--不显示，类型为[u8]-->
+        <span class="aes_key" id="0" style="display: none;"></span><!--不显示，类型为[u8]-->
     </div>
-    <div class="body_block"><!--总算可以用正常的AES密钥加密东西了-->
+    <div class="body_block" id="exist_when_aes_ready"><!--总算可以用正常的AES密钥加密东西了-->
         <div><!--向文本框中写入数据，点加密按钮，加密的内容显示在右边的span中-->
-
+            <div>向文本框中写入数据，点加密按钮，加密的内容显示在右边</div>
+            <textarea id="text"></textarea>
+            <button onclick="encryptText()">加密</button>
+            <span id="encrypted_text"></span>
         </div>
-        <div><!--将文件拖入左边的区域，或者点击左边的区域，选择文件，点击加密选择保存加密的文件的位置-->
-            <!--他妈的这里还不会写，明天问问GPT罢。。。。。。-->
-            
+        <div><!--向文本框中写入对面发来的密文，点解密按钮，解密的内容显示在右边的span中-->
+            <div>向文本框中写入对面发来的密文，点解密按钮，解密的内容显示在右边</div>
+            <textarea id="encrypted_text"></textarea>
+            <button onclick="decryptText()">解密</button>
+            <span id="decryptd_text"></span>
+        </div>
+
+        <div><!--点击左边的区域，选择文件，点击加密选择保存加密的文件的位置-->
+            <span class="file_status" onclick="uploadFile()">点击选择想要加密的文件</span><!--这个span会显示文件的上传状态，即“上传中...”和“上传成功”-->
             <button onclick="encryptFile()">加密</button>
+            <span class="path" id="normal_file" style="display: none;"></span><!--不显示，记录文件的路径-->
+        </div>
+        <div><!--点击左边的区域，选择文件，点击解密选择保存解密的文件的位置-->
+            <span class="file_status" onclick="uploadFile()">点击选择想要解密的文件</span><!--这个span会显示文件的上传状态，即“上传中...”和“上传成功”-->
+            <button onclick="decryptFile()">解密</button>
+            <span class="path" id="encrypted_file" style="display: none;"></span><!--不显示，记录文件的路径-->
         </div>
     </div>
 

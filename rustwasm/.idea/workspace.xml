@@ -8,7 +8,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90b994b4-d6d2-494b-bd21-c5a8d9a2c8bd" name="更改" comment="">
+      <change beforePath="$PROJECT_DIR$/../frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/script/encrypt.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/script/encrypt.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/script/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/script/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/tools/encrypt.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/tools/encrypt.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/encrypt.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/encrypt.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +59,7 @@
     "nodejs_package_manager_path": "npm",
     "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
     "org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon": "",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "settings.editor.selected.configurable": "language.rust.cargo.check",
     "vue.rearranger.settings.migration": "true",
     "wasm-pack.Build.executor": "Run"
   }
@@ -92,7 +99,8 @@
       <workItem from="1718800284002" duration="68000" />
       <workItem from="1718800396112" duration="43000" />
       <workItem from="1718800964779" duration="122000" />
-      <workItem from="1718801092836" duration="15950000" />
+      <workItem from="1718801092836" duration="17336000" />
+      <workItem from="1718947429875" duration="13001000" />
     </task>
     <servers />
   </component>

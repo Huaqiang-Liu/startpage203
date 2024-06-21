@@ -13,7 +13,7 @@
             项目的GitHub主页
         </span>
         <span id="day_night_switch" onclick="dayNightSwitch()">
-            <span>1</span><!--这个不显示，记录1亮0暗-->
+            <span id="day_or_night" style="display: none;">1</span><!--这个不显示，记录1亮0暗-->
         </span>
     </div>
     <div class="body_block">
@@ -39,28 +39,25 @@
         </form>
     </div>
     
-    <div id="add_site_window">
-        <!--添加常用网站的弹窗，平常隐藏，点击加号按钮显示，点击确定按钮后隐藏。添加缩写的输入框
+    <div id="add_site_window" style="display: none;">
+        <!--添加常用网站的弹窗，平常不显示，点击加号按钮显示，点击确定按钮后隐藏。添加缩写的输入框
         要搞表单检查，如下面注释所说；添加网址的输入框无所谓，填错了跳转过去寄了算球。最后一
-        个取消按钮一个确定按钮，点击取消直接关闭弹窗，没别的。注意addSite中也可以调用
-        hideAddSiteWindow-->
-        <div>网站名缩写：<input type="text" id="site_name"></div>
-        <div>网址：<input type="text" id="site_url"></div>
+        个取消按钮一个确定按钮，点击取消直接关闭弹窗，没别的。注意addSite中也调用hideAddSiteWindow-->
+        <div>网站名缩写：<input type="text" id="add_site_name"></div>
+        <div>网址：<input type="text" id="add_site_url"></div>
         <div>
             <button onclick="hideAddSiteWindow()">取消</button>
             <button onclick="addSite()">确定</button>
         </div>
     </div>
 
-    <div class="body_block">
+    <div class="body_block" id="favor_sites">
         <!--我打算是像谷歌开始界面那样几排方形按钮，最后一个方形按钮是加号，点了以后出来一个小弹窗，在里面
         填上网址和缩写，然后点确定，就会在主界面上出现一个新的方形按钮，点击这个按钮就会跳转到你刚刚填的网址。
         按钮下方放一个小按钮，上面写个×，点击删掉这个class="site"的标签。缩写显示在方形按钮上。按钮靠左放置-->
-        <span class="site">
-            <div>网站名缩写</div><!--不能超过9个汉字/18字节，填写弹窗中的表单时要作出限制-->
-            <div class="site_url">不显示，只是存储收藏网站的域名</div>
-            <div class="del_site" onclick="delSite()">×</div>
-        </span>
+
+
+        
         <span class="site" id="add_site" onclick="showAddSiteWindow()">+</span>
     </div>
 

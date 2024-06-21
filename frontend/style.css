@@ -18,3 +18,7 @@ button {
 
 
 */
+/*class="site"的背景改为红色*/
+.site {
+    background-color: red;
+}
