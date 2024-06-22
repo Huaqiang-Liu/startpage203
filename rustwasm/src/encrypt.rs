@@ -33,7 +33,13 @@ pub fn test_wasm() {
 
 // fnmode为1则用别人的AES，生成RSA密钥对保存进DATA；否则自己生成AES，也保存进DATA
 #[wasm_bindgen]
-pub fn init_page(fnmode: i32) { // TODO: 添加到js的init函数中，删掉“肯定”
+pub fn init_page(fnmode: i32) {
+    unsafe {
+        DATA.saved_pub_key = None;
+        DATA.saved_priv_key = None;
+        DATA.saved_aes_key = None;
+        DATA.saved_aes_cipher = None;
+    }
     if fnmode == 1 {
         let (priv_key, pub_key) = gen_rsa().unwrap();
         unsafe {
@@ -82,7 +88,7 @@ pub fn encrypt_aes_by_rsa(pub_key_str: &str) -> String {
     encrypted_aes.iter().map(|x| x.to_string()).collect::<Vec<String>>().join(",")
 }
 
-// 将RSA公钥转换为字符串，符合PKCS#1标准（肯定是自己的RSA公钥转换为字符串发给别人）
+// 将自己的RSA公钥转换为字符串，符合PKCS#1标准
 #[wasm_bindgen]
 pub fn rsa_pub_key_to_string() -> String {
     let pub_key = unsafe { DATA.saved_pub_key.as_ref().unwrap() };

@@ -25,12 +25,10 @@
         </div>
         <div>
             <div class="aes_key_status" id="1"><!--如果解密成功就将这段话改为“AES密钥已保存”-->
-                将对面发来的，用你的RSA公钥加密的AES密钥，转换为的字符串，粘贴进下面的
-                文本框，点击按钮将其解密，在这段话改变之前请勿点击其它按钮
+                将对面发来的，用你的RSA公钥加密的AES密钥，转换为的字符串，粘贴进下面的文本框，点击按钮将其解密，在这段话改变之前请勿点击其它按钮
             </div>
             <textarea id="op_aes_key_str"></textarea>
             <button onclick="decryptAESKey()">解密</button>
-            <span class="aes_key" id="1" style="display: none;"></span><!--不显示，类型为[u8]-->
         </div>
     </div>
     <div class="body_block" id="exist_when_0"><!--0时存在，自动产生AES密钥，不显示；把对面发来的公钥粘贴在框里，然后加密AES密钥，转换为字符串格式，增加copy按钮-->
@@ -42,7 +40,6 @@
         <button onclick="encryptAESKey()">加密</button>
         <div id="my_aes_key_str">这里将显示加密后的AES密钥转换为的字符串</div>
         <button onclick="copy('my_aes_key')">复制</button>
-        <span class="aes_key" id="0" style="display: none;"></span><!--不显示，类型为[u8]-->
     </div>
     <div class="body_block" id="exist_when_aes_ready"><!--总算可以用正常的AES密钥加密东西了-->
         <div><!--向文本框中写入数据，点加密按钮，加密的内容显示在右边的span中-->
@@ -53,20 +50,20 @@
         </div>
         <div><!--向文本框中写入对面发来的密文，点解密按钮，解密的内容显示在右边的span中-->
             <div>向文本框中写入对面发来的密文，点解密按钮，解密的内容显示在右边</div>
-            <textarea id="encrypted_text"></textarea>
+            <textarea id="op_encrypted_text"></textarea>
             <button onclick="decryptText()">解密</button>
             <span id="decryptd_text"></span>
         </div>
 
         <div><!--点击左边的区域，选择文件，点击加密选择保存加密的文件的位置-->
-            <span class="file_status" onclick="uploadFile()">点击选择想要加密的文件</span><!--这个span会显示文件的上传状态，即“上传中...”和“上传成功”-->
-            <button onclick="encryptFile()">加密</button>
-            <span class="path" id="normal_file" style="display: none;"></span><!--不显示，记录文件的路径-->
+            <input type="file" id="file_to_encrypt" style="display:none">
+            <span id="file_status_1" onclick="uploadFile(1)">点击选择想要加密的文件</span><!--这个span会显示文件的上传状态，即“上传中...”和“上传成功”-->
+            <button onclick="processFile(1)">加密</button>
         </div>
         <div><!--点击左边的区域，选择文件，点击解密选择保存解密的文件的位置-->
-            <span class="file_status" onclick="uploadFile()">点击选择想要解密的文件</span><!--这个span会显示文件的上传状态，即“上传中...”和“上传成功”-->
-            <button onclick="decryptFile()">解密</button>
-            <span class="path" id="encrypted_file" style="display: none;"></span><!--不显示，记录文件的路径-->
+            <input type="file" id="file_to_decrypt" style="display:none">
+            <span id="file_status_0" onclick="uploadFile(0)">点击选择想要解密的文件</span><!--这个span会显示文件的上传状态，即“上传中...”和“上传成功”-->
+            <button onclick="processFile(0)">解密</button>
         </div>
     </div>
 

@@ -8,10 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90b994b4-d6d2-494b-bd21-c5a8d9a2c8bd" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/../frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/script/encrypt.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/script/encrypt.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/script/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/script/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/tools/encrypt.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/tools/encrypt.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/encrypt.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/encrypt.rs" afterDir="false" />
@@ -64,6 +61,20 @@
     "wasm-pack.Build.executor": "Run"
   }
 }]]></component>
+  <component name="RunAnythingCache">
+    <myKeys>
+      <visibility group="Cargo 命令" flag="true" />
+      <visibility group="Grunt" flag="true" />
+      <visibility group="Gulp" flag="true" />
+      <visibility group="HTTP 请求" flag="true" />
+      <visibility group="Node.js" flag="true" />
+      <visibility group="npm" flag="true" />
+      <visibility group="wasm-pack 命令" flag="true" />
+      <visibility group="yarn" flag="true" />
+      <visibility group="最近的项目" flag="true" />
+      <visibility group="运行配置" flag="true" />
+    </myKeys>
+  </component>
   <component name="RunManager">
     <configuration name="Build" type="WasmPackCommandRunConfiguration" factoryName="wasm-pack">
       <option name="command" value="build" />
@@ -100,7 +111,7 @@
       <workItem from="1718800396112" duration="43000" />
       <workItem from="1718800964779" duration="122000" />
       <workItem from="1718801092836" duration="17336000" />
-      <workItem from="1718947429875" duration="13001000" />
+      <workItem from="1718947429875" duration="20256000" />
     </task>
     <servers />
   </component>
