@@ -5,7 +5,7 @@
     <title>startpage203</title>
 </head>
 <link rel="stylesheet" href="./style.css">
-<script src="./script/index.js"></script>
+<script type="module" src="./script/index.js"></script>
 <body>
     <div class="topbar">
         <span
@@ -13,7 +13,7 @@
             项目的GitHub主页
         </span>
         <span id="day_night_switch" onclick="dayNightSwitch()">
-            <span id="day_or_night" style="display: none;">1</span><!--这个不显示，记录1亮0暗-->
+            点我切换白天和黑夜模式
         </span>
     </div>
     <div class="body_block">
@@ -55,14 +55,15 @@
         <!--我打算是像谷歌开始界面那样几排方形按钮，最后一个方形按钮是加号，点了以后出来一个小弹窗，在里面
         填上网址和缩写，然后点确定，就会在主界面上出现一个新的方形按钮，点击这个按钮就会跳转到你刚刚填的网址。
         按钮下方放一个小按钮，上面写个×，点击删掉这个class="site"的标签。缩写显示在方形按钮上。按钮靠左放置-->
-
-        
         <span class="site" id="add_site" onclick="showAddSiteWindow()">+</span>
     </div>
 
     <div class="body_block">
         <span onclick="window.location.href='./tools/encrypt.html'">
             加密工具
+        </span>
+        <span onclick="window.location.href='./tools/processimage.html'">
+            图像处理工具
         </span>
     </div>
 </body>

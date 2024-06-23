@@ -8,12 +8,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90b994b4-d6d2-494b-bd21-c5a8d9a2c8bd" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/src/image.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/script/encrypt.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/script/encrypt.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/script/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/script/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/tools/encrypt.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/tools/encrypt.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/encrypt.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/encrypt.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +83,7 @@
   </component>
   <component name="RunManager">
     <configuration name="Build" type="WasmPackCommandRunConfiguration" factoryName="wasm-pack">
-      <option name="command" value="build" />
+      <option name="command" value="build --target web " />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
       <envs />
       <option name="emulateTerminal" value="true" />
@@ -115,7 +119,7 @@
       <workItem from="1718801092836" duration="17336000" />
       <workItem from="1718947429875" duration="20476000" />
       <workItem from="1719068821019" duration="1671000" />
-      <workItem from="1719070559131" duration="8840000" />
+      <workItem from="1719070559131" duration="18279000" />
     </task>
     <servers />
   </component>

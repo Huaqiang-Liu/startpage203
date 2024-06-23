@@ -6,7 +6,6 @@
 </head>
 <link rel="stylesheet" href="../style.css">
 <script type="module" src="../script/encrypt.js"></script>
-<!-- <script src="../../rustwasm/pkg/rustwasm.js"></script> -->
 <body>
 <!--前端要写两种模式：用我的AES和用对方的AES。
     前者不生成RSA，要输入对面发来的公钥，生成加密的AES密钥————方式0
@@ -59,13 +58,11 @@
         </div>
 
         <div><!--点击左边的区域，选择文件，点击加密选择保存加密的文件的位置-->
-            <input type="file" id="file_to_encrypt" style="display:none">
-            <span id="file_status_1" onclick="uploadFile(1)">点击选择想要加密的文件</span><!--这个span会显示文件的上传状态，即“上传中...”和“上传成功”-->
+            点击选择想要加密的文件<input type="file" id="file_to_encrypt">
             <button onclick="processFile(1)">加密</button>
         </div>
         <div><!--点击左边的区域，选择文件，点击解密选择保存解密的文件的位置-->
-            <input type="file" id="file_to_decrypt" style="display:none">
-            <span id="file_status_0" onclick="uploadFile(0)">点击选择想要解密的文件</span><!--这个span会显示文件的上传状态，即“上传中...”和“上传成功”-->
+            点击选择想要解密的文件<input type="file" id="file_to_decrypt">
             <button onclick="processFile(0)">解密</button>
         </div>
     </div>

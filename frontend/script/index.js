@@ -1,15 +1,44 @@
+import init, {
+    save_favor_sites_to_file,
+    load_favor_sites_from_file
+} from '../../rustwasm/pkg/rustwasm.js'
+
+function run() {
+    // initialize WebAssembly module
+    console.log("running function run()");
+    window.dayNightSwitch = dayNightSwitch;
+    window.hideAddSiteWindow = hideAddSiteWindow;
+    window.openSite = openSite;
+    window.addSite = addSite;
+    window.delSite = delSite;
+    window.showAddSiteWindow = showAddSiteWindow;
+    // load_favor_sites_from_file()返回的是一个JSON字符串，需要将其转换为对象
+    // var favor_sites = JSON.parse(load_favor_sites_from_file());
+    // console.log("favor_sites="+favor_sites);
+    // document.getElementById("favor_sites").innerHTML = favor_sites;
+}
+await init().then(run);
+
+
+// 读取本地存储中的模式，设置页面的主题，加载保存的网址
+var value = localStorage.getItem("theme");
+if (value == "dark") {
+    document.documentElement.setAttribute("data-theme", "dark");
+} else {
+    document.documentElement.setAttribute("data-theme", "light");
+}
 
 
 function dayNightSwitch() {
-    // 函数将id="day_or_night"这个span里面存放的值01替换，0是夜间模式，1是白天模式
-    var day_or_night = document.getElementById("day_or_night");
-    var value = day_or_night.innerText;
-    if (value == "0") {
-        day_or_night.innerText = "1";
-        // TODO: 修改CSS切换到白天模式
+    var value = localStorage.getItem("theme");
+    if (value == "dark") {
+        document.documentElement.setAttribute("data-theme", "light");
+        // 保存模式到本地存储
+        localStorage.setItem("theme", "light");
     } else {
-        day_or_night.innerText = "0";
-        // TODO: 修改CSS切换到夜间模式
+        document.documentElement.setAttribute("data-theme", "dark");
+        // 保存模式到本地存储
+        localStorage.setItem("theme", "dark");
     }
 }
 
@@ -45,23 +74,28 @@ function addSite() {
     // 网址的，所以添加的这个结构应该放在favor_sites的倒数第二个位置。
     var new_site = document.createElement("span");
     new_site.className = "site";
-    var new_site_name = document.createElement("div");
+    var new_site_name = document.createElement("span");
     new_site_name.innerText = site_name;
     new_site_name.onclick = openSite; // 打开这个div所在的span（class="site）中的class="site_url"的div中的网址
     new_site.appendChild(new_site_name);
-    var new_site_url = document.createElement("div");
+    var new_site_url = document.createElement("span");
     new_site_url.className = "site_url";
     new_site_url.style.display = "none";
     new_site_url.innerText = site_url;
     new_site.appendChild(new_site_url);
-    var new_del_site = document.createElement("div");
+    var new_del_site = document.createElement("span");
     new_del_site.className = "del_site";
     new_del_site.innerText = "×";
     new_del_site.onclick = delSite;
     new_site.appendChild(new_del_site);
     var favor_sites = document.getElementById("favor_sites");
     favor_sites.insertBefore(new_site, favor_sites.lastChild);
+    // 将添加的网址信息保存在../assets/sites.json中，保存在【文件中】，懂吗？？不用浏览器的localStorage！！！！！！！！！！！！！！！！！！！！！！！！
+
+    // 浏览器不让用nodejs的fs模块，所以只能用rust编译出的函数来完成保存文件和读取文件的操作
+    // save_favor_sites_to_file();
     
+    // 关闭添加网址弹窗
     hideAddSiteWindow();
 }
 

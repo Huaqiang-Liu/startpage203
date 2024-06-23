@@ -28,13 +28,18 @@ function run() {
     window.encryptAESKey = encryptAESKey;
     window.encryptText = encryptText;
     window.decryptText = decryptText;
-    window.uploadFile = uploadFile;
     window.processFile = processFile;
     initPage();
 }
 await init().then(run);
 
 function initPage() {
+    var theme_value = localStorage.getItem("theme");
+    if (theme_value == "dark") {
+        document.documentElement.setAttribute("data-theme", "dark");
+    } else {
+        document.documentElement.setAttribute("data-theme", "light");
+    }
     // test_wasm();
     if (fnmode == "1") { // 用别人的AES，产生RSA密钥对
         document.getElementById("exist_when_0").style.display = "none";
@@ -108,28 +113,9 @@ function encryptAESKey() {
 
 function encryptText() {
     var text = document.getElementById("text").value;
-    // console.log("text: " + text);
-    // 直接把字符串转换成字节流，这个字符串不符合"114,514"这样的，所以要用js自带的解编码方法，而不能用专门处理"114,514"这样的字符串而编写的str_to_bytes！！
     var bytes = new TextEncoder().encode(text);
-    // console.log("bytes: " + bytes);
     var encrypted_bytes = encrypt_by_aes(bytes);
-
-    // var tmp0 = decrypt_by_aes(encrypted_bytes);
-    // // 解码
-    // var encrypted_text = new TextDecoder().decode(tmp0);
-    // document.getElementById("encrypted_text").innerText = encrypted_text;
-
-    // console.log("checkpoint 0, tmp0: " + tmp0);
-    // // 直接AES加密会得到乱码，所以转换成形如"114,514"这样的字节流
-    // console.log("checkpoint 1");
     var encrypted_text = bytes_to_str(encrypted_bytes);
-    // console.log("checkpoint 2, encrypted_text: " + encrypted_text);
-    // var tmp1 = str_to_bytes(encrypted_text);
-    // console.log("checkpoint 3, tmp1: " + tmp1);
-    // var tmp2 = decrypt_by_aes(tmp1);
-    // console.log("checkpoint 4, tmp2: " + tmp2);
-    // var tmp3 = bytes_to_str(tmp2);
-    // console.log("checkpoint 5, tmp3: " + tmp3);
     document.getElementById("encrypted_text").innerText = encrypted_text;//encrypted_text;
 }
 
@@ -142,52 +128,42 @@ function decryptText() {
     document.getElementById("decrypted_text").innerText = decrypted_text;
 }
 
-// 选择要上传的文件，选中后记录路径，转换成字节流
-var file_to_encrypt_path = "";
-var file_to_encrypt_data = null;
-var file_to_decrypt_path = "";
-var file_to_decrypt_data = null;
-function uploadFile(mode) {
-    if (mode == 1) { // 上传要加密的文件，打开系统资源管理器，选择后记录路径
-        document.getElementById("file_to_encrypt").click();
-        var file = document.getElementById("file_to_encrypt").files[0];
-        file_to_encrypt_path = file ? file.path : "";
-        if (file == null) {
-            return;
-        }
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            file_to_encrypt_data = new Uint8Array(e.target.result);
-        }
-        reader.readAsArrayBuffer(file);
-    } else {
-        document.getElementById("file_to_decrypt").click();
-        var file = document.getElementById("file_to_decrypt").files[0];
-        file_to_decrypt_path = file ? file.path : "";
-        if (file == null) {
-            return;
-        }
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            file_to_decrypt_data = new Uint8Array(e.target.result);
-        }
-        reader.readAsArrayBuffer(file);
-    
-    }
-}
 
 // 加密或解密完成后弹出系统资源管理器选择保存处理之后的文件的位置
-function processFile(mode) { 
-    var processed_data = null;
-    if (mode == 1)
-        processed_data = encrypt_by_aes(file_to_encrypt_data);
-    else
-        processed_data = decrypt_by_aes(file_to_decrypt_data);
-    var blob = new Blob([processed_data]);
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement("a");
-    a.href = url;
-    a.download = file_to_encrypt_path.split("\\").pop();
-    a.click();
-    URL.revokeObjectURL(url);
+// 从下面这两个地方获取文件，转换为字节流。在此之前应该已经点击并上传了文件，如果没有就alert并返回
+// <input type="file" id="file_to_encrypt">，<input type="file" id="file_to_decrypt">
+function processFile(mode) {
+    var file;
+    if (mode == 1) {
+        file = document.getElementById("file_to_encrypt").files[0];
+    } else {
+        file = document.getElementById("file_to_decrypt").files[0];
+    }
+    if (file == null) {
+        alert("请先选择文件");
+        return;
+    }
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        var file_data = new Uint8Array(e.target.result);
+        if (mode == 1) {
+            var encrypted_data = encrypt_by_aes(file_data);
+            var blob = new Blob([encrypted_data], {type: "application/octet-stream"});
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement("a");
+            a.href = url;
+            a.download = file.name + ".encrypted";
+            a.click();
+        } else {
+            var decrypted_data = decrypt_by_aes(file_data);
+            var blob = new Blob([decrypted_data], {type: "application/octet-stream"});
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement("a");
+            a.href = url;
+            a.download = file.name + ".decrypted";
+            a.click();
+        }
+    }
+    reader.readAsArrayBuffer(file);
+
 }

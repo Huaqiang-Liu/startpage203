@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图像处理工具</title>
+</head>
+<link rel="stylesheet" href="../style.css">
+<script type="module" src="../script/processimage.js"></script>
+<body>
+    <div class="topbar">
+        <span onclick="window.location.href='../index.html'">
+            返回主页
+        </span>
+    </div>
+    <div class="body_block">
+        <!--上传图片-->请先上传图片
+        <input type="file" id="image" accept="image/*">
+    </div>
+    <div class="body_block" id="choosemode">
+        <!--单选框，选择模式：图像压缩（要选择压缩比率）；修改灰度，锐度，对比度-->
+        <div>
+            <input type="radio" name="mode" id="compress" value="compress" checked>
+            <label for="compress">图像压缩</label>
+            <input type="radio" name="mode" id="gray" value="gray">
+            <label for="gray">修改灰度</label>
+            <input type="radio" name="mode" id="sharp" value="sharp">
+            <label for="sharp">修改锐度</label>
+            <input type="radio" name="mode" id="contrast" value="contrast">
+            <label for="contrast">修改对比度</label>
+        </div>
+    </div>
+    <!--调整比例，即百分比，仅适用于非压缩的情况-->
+    <div class="body_block" id="not_compress">
+        <input type="range" id="ratio" min="0" max="100" value="50">
+        <input type="text" id="ratio_value" value="50"
+        style="width:25px;">%
+    </div>
+    <!--对于压缩，输入的是压缩之后的文件大小-->
+    <div class="body_block" id="is_compress">
+        <div id="image_size"></div>
+        <input type="text" id="size" placeholder="压缩后的文件大小（KB）">
+    </div>
+    <!--处理图像，文字居中-->
+    <div class="body_block" id="process" style="text-align:center;">
+        处理
+    </div>
+    <!--显示处理后的图像-->
+    <div class="body_block">
+        这里将显示处理后的图像：
+        <img id="result">
+    </div>
+</body>
+</html>
