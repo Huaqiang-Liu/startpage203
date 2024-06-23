@@ -1,16 +1,15 @@
-// import init, {
-//     test_wasm,
-//     init_page,
-//     encrypt_aes_by_rsa,
-//     rsa_pub_key_to_string,
-//     str_to_aes,
-//     check_data,
-//     encrypt_by_aes,
-//     decrypt_by_aes
-// } from '../../rustwasm/pkg/rustwasm_bg.js';
-
-// import * as wasm from "../../rustwasm/pkg/rustwasm";
-const wasm = import("../../rustwasm/pkg/rustwasm.js");
+import init, {
+    test_wasm,
+    init_page,
+    str_to_bytes,
+    bytes_to_str,
+    encrypt_aes_by_rsa,
+    rsa_pub_key_to_string,
+    str_to_aes,
+    check_data,
+    encrypt_by_aes,
+    decrypt_by_aes
+} from '../../rustwasm/pkg/rustwasm.js';
 
 // id="fn_mode"的内容，为"0"或者"1"
 var fnmode;
@@ -19,52 +18,54 @@ document.addEventListener("DOMContentLoaded", function() {
 }); // 超级大坑：如果直接fnmode=document.getElementById("fn_mode").innerText，
     // 那么fnmode的值会是undefined，因为页面还没加载出来就取了这个值
 
+// 异步导入WASM代码，必须要异步！！
+function run() {
+    // initialize WebAssembly module
+    console.log("running function run()");
+    window.fnSwitch = fnSwitch;
+    window.copy = copy;
+    window.decryptAESKey = decryptAESKey;
+    window.encryptAESKey = encryptAESKey;
+    window.encryptText = encryptText;
+    window.decryptText = decryptText;
+    window.uploadFile = uploadFile;
+    window.processFile = processFile;
+    initPage();
+}
+await init().then(run);
+
 function initPage() {
-    wasm.test_wasm();
+    // test_wasm();
     if (fnmode == "1") { // 用别人的AES，产生RSA密钥对
         document.getElementById("exist_when_0").style.display = "none";
         document.getElementById("exist_when_1").style.display = "block";
-        wasm.init_page(1);
-        document.getElementById("my_rsa_pub_key").innerText = wasm.rsa_pub_key_to_string();
+        init_page(1);
+        document.getElementById("my_rsa_pub_key").innerText = rsa_pub_key_to_string();
     } else {
         document.getElementById("exist_when_0").style.display = "block";
         document.getElementById("exist_when_1").style.display = "none";
-        wasm.init_page(0);
+        init_page(0);
         document.getElementById("0").innerText = "AES密钥已保存";
     }
     
     document.getElementById("exist_when_aes_ready").style.display = "none";
     console.log("fnmode: " + fnmode);
 } // 没加载出来东西就调用initPage也会像上面的坑一样，所以要想下面这样调用
-window.addEventListener('DOMContentLoaded', initPage);
+
+
+
 
 function copy(id) {
     var text = document.getElementById(id).innerText;
-    // 如果在电脑端运行
     if (navigator.userAgent.indexOf('Mobile') < 0) {
-        console.log('电脑端')
         navigator.clipboard.writeText(text).then(function() {
             console.log('已复制到剪贴板');
         }, function() {
             alert('复制失败');
         });
+    } else {
+        alert("手机端暂不支持复制到剪贴板，请手动复制");
     }
-    // 如果是在手机上运行
-    else {
-        console.log('手机端')
-        var input = document.createElement('input');
-        input.setAttribute('readonly', 'readonly');
-        input.setAttribute('value', text);
-        document.body.appendChild(input);
-        input.setSelectionRange(0, 9999);
-        input.select();
-        if (document.execCommand('copy')) {
-            document.execCommand('copy');
-            console.log('已复制到剪贴板');
-        }
-        document.body.removeChild(input);
-    }
-    
 }
 
 function fnSwitch() {
@@ -83,8 +84,8 @@ function fnSwitch() {
 // 显示，并将id="1"的内容改为“AES密钥已保存”
 function decryptAESKey() {
     var aes_key_str = document.getElementById("op_aes_key_str").value;
-    var aes_key = wasm.str_to_aes(aes_key_str);
-    if (wasm.check_data(aes_key)) {
+    var aes_key = str_to_aes(aes_key_str);
+    if (check_data(aes_key)) {
         document.getElementById("exist_when_aes_ready").style.display = "block";
         document.getElementById("1").innerText = "AES密钥已保存";
     } else {
@@ -96,8 +97,8 @@ function decryptAESKey() {
 // <div id="my_aes_key_str">这里将显示加密后的AES密钥转换为的字符串</div>
 function encryptAESKey() {
     var pub_key_str = document.getElementById("op_rsa_pub_key").value;
-    var aes_str = wasm.encrypt_aes_by_rsa(pub_key_str);
-    if (wasm.check_data(pub_key_str)) {
+    var aes_str = encrypt_aes_by_rsa(pub_key_str);
+    if (check_data(pub_key_str)) {
         document.getElementById("exist_when_aes_ready").style.display = "block";
         document.getElementById("my_aes_key_str").innerText = aes_str;
     } else {
@@ -106,16 +107,38 @@ function encryptAESKey() {
 }
 
 function encryptText() {
-    var text = document.getElementById("text").innerText;
-    var encrypted_text = wasm.encrypt_by_aes(text);
-    document.getElementById("encrypted_text").innerText = encrypted_text;
+    var text = document.getElementById("text").value;
+    // console.log("text: " + text);
+    // 直接把字符串转换成字节流，这个字符串不符合"114,514"这样的，所以要用js自带的解编码方法，而不能用专门处理"114,514"这样的字符串而编写的str_to_bytes！！
+    var bytes = new TextEncoder().encode(text);
+    // console.log("bytes: " + bytes);
+    var encrypted_bytes = encrypt_by_aes(bytes);
+
+    // var tmp0 = decrypt_by_aes(encrypted_bytes);
+    // // 解码
+    // var encrypted_text = new TextDecoder().decode(tmp0);
+    // document.getElementById("encrypted_text").innerText = encrypted_text;
+
+    // console.log("checkpoint 0, tmp0: " + tmp0);
+    // // 直接AES加密会得到乱码，所以转换成形如"114,514"这样的字节流
+    // console.log("checkpoint 1");
+    var encrypted_text = bytes_to_str(encrypted_bytes);
+    // console.log("checkpoint 2, encrypted_text: " + encrypted_text);
+    // var tmp1 = str_to_bytes(encrypted_text);
+    // console.log("checkpoint 3, tmp1: " + tmp1);
+    // var tmp2 = decrypt_by_aes(tmp1);
+    // console.log("checkpoint 4, tmp2: " + tmp2);
+    // var tmp3 = bytes_to_str(tmp2);
+    // console.log("checkpoint 5, tmp3: " + tmp3);
+    document.getElementById("encrypted_text").innerText = encrypted_text;//encrypted_text;
 }
 
 function decryptText() {
-    var text = document.getElementById("op_encrypted_text").innerText;
-    var encrypted_text = new TextEncoder().encode(text);
-    var decrypted_array = wasm.decrypt_by_aes(encrypted_text);
-    var decrypted_text = new TextDecoder().decode(decrypted_array);
+    var encrypted_text = document.getElementById("op_encrypted_text").value;
+    var encrypted_bytes = str_to_bytes(encrypted_text);
+    var decrypted_bytes = decrypt_by_aes(encrypted_bytes);
+    // 用js的方法将bytes转为字符串并显示
+    var decrypted_text = new TextDecoder().decode(decrypted_bytes);
     document.getElementById("decrypted_text").innerText = decrypted_text;
 }
 
@@ -157,9 +180,9 @@ function uploadFile(mode) {
 function processFile(mode) { 
     var processed_data = null;
     if (mode == 1)
-        processed_data = wasm.encrypt_by_aes(file_to_encrypt_data);
+        processed_data = encrypt_by_aes(file_to_encrypt_data);
     else
-        processed_data = wasm.decrypt_by_aes(file_to_decrypt_data);
+        processed_data = decrypt_by_aes(file_to_decrypt_data);
     var blob = new Blob([processed_data]);
     var url = URL.createObjectURL(blob);
     var a = document.createElement("a");

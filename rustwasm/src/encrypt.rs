@@ -72,6 +72,27 @@ pub fn gen_aes() -> (Vec<u8>, Aes256Gcm) {
     (key.to_vec(), cipher)
 }
 
+// RSA加密的AES，AES加密的数据，都有可能出现乱码，所以传输时应转换为形如"114,514"的字符串
+#[wasm_bindgen]
+pub fn str_to_bytes(data_str: &str) -> Vec<u8> {
+    // data_str形如"114,514"，将其转为字节串
+    let mut data = Vec::new();
+    let mut num = 0;
+    for c in data_str.chars() {
+        if c == ',' {
+            data.push(num);
+            num = 0;
+        } else if c.is_digit(10) {
+            num = num * 10 + c.to_digit(10).unwrap() as u8;
+        }
+    }
+    data.push(num);
+    data
+}
+#[wasm_bindgen]
+pub fn bytes_to_str(data: &[u8]) -> String {
+    data.iter().map(|x| x.to_string()).collect::<Vec<String>>().join(",")
+}
 
 // 把别人的RSA公钥字符串保存到DATA，然后加密我的256位AES密钥，返回加密后并转为形如"114,514"的字符串
 #[wasm_bindgen]
@@ -85,7 +106,7 @@ pub fn encrypt_aes_by_rsa(pub_key_str: &str) -> String {
     let aes_key = unsafe { DATA.saved_aes_key.as_ref().unwrap() };
     let encrypted_aes = pub_key.encrypt(&mut rng, Pkcs1v15Encrypt, aes_key.as_slice())
         .expect("encrypt my aes key with other's rsa public key failure!");
-    encrypted_aes.iter().map(|x| x.to_string()).collect::<Vec<String>>().join(",")
+    bytes_to_str(encrypted_aes.as_slice())
 }
 
 // 将自己的RSA公钥转换为字符串，符合PKCS#1标准
@@ -99,17 +120,7 @@ pub fn rsa_pub_key_to_string() -> String {
 // 解密，保存到DATA中
 #[wasm_bindgen]
 pub fn str_to_aes(encrypted_aes_str: &str) {
-    let mut encrypted_aes = Vec::new();
-    let mut num = 0;
-    for c in encrypted_aes_str.chars() {
-        if c == ',' {
-            encrypted_aes.push(num);
-            num = 0;
-        } else if c.is_digit(10) {
-            num = num * 10 + c.to_digit(10).unwrap() as u8;
-        }
-    }
-    encrypted_aes.push(num);
+    let encrypted_aes = str_to_bytes(encrypted_aes_str);
     // 现在得到了加密了的aes key的字节串，解密后保存到DATA中
     let priv_key = unsafe { DATA.saved_priv_key.as_ref().unwrap() };
     let key = priv_key.decrypt(Pkcs1v15Encrypt, encrypted_aes.as_slice())
@@ -129,10 +140,10 @@ pub fn check_data() -> bool {
     }
 }
 
-// 不管是用别人的还是用自己的AES加密数据，现在key和cipher都保存在DATA中了，直接用其加密数据即可
-// 加密后的内容的最后12个字节是nonce。数据可能涉及二进制，所以都是字节流，而非字符串
+// 不管是用别人的还是用自己的AES加密数据，现在key和cipher都保存在DATA中了，直接用其加密解密数据即可。
+// 数据可能涉及二进制，所以都是字节流，而非字符串
 #[wasm_bindgen]
-pub fn encrypt_by_aes(data: &[u8]) -> Vec<u8> {
+pub fn encrypt_by_aes(data: &[u8]) -> Vec<u8> { // 加密后的内容的最后12个字节是nonce
     let cipher = unsafe { DATA.saved_aes_cipher.as_ref().unwrap() };
     let nonce = Aes256Gcm::generate_nonce(&mut OsRng);
     let mut encrypted_data = cipher.encrypt(&nonce, data.as_ref())
@@ -140,11 +151,8 @@ pub fn encrypt_by_aes(data: &[u8]) -> Vec<u8> {
     encrypted_data.extend_from_slice(nonce.as_slice());
     encrypted_data
 }
-
-// 不管是用别人的还是用自己的AES解密数据，现在key和cipher都保存在DATA中了，直接用其解密数据即可
-// 解密前的数据的最后12个字节是nonce。数据可能涉及二进制，所以都是字节流，而非字符串
 #[wasm_bindgen]
-pub fn decrypt_by_aes(data: &[u8]) -> Vec<u8> {
+pub fn decrypt_by_aes(data: &[u8]) -> Vec<u8> { // 解密前的数据的最后12个字节是nonce
     let cipher = unsafe { DATA.saved_aes_cipher.as_ref().unwrap() };
     let nonce: &GenericArray<u8, typenum::U12> = Nonce::from_slice(&data[data.len()-12..]);
     let decrypted_data = cipher.decrypt(nonce, &data[..data.len()-12])

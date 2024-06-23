@@ -5,7 +5,8 @@
     <title>加密工具</title>
 </head>
 <link rel="stylesheet" href="../style.css">
-<script src="../script/encrypt.js"></script>
+<script type="module" src="../script/encrypt.js"></script>
+<!-- <script src="../../rustwasm/pkg/rustwasm.js"></script> -->
 <body>
 <!--前端要写两种模式：用我的AES和用对方的AES。
     前者不生成RSA，要输入对面发来的公钥，生成加密的AES密钥————方式0
@@ -39,7 +40,7 @@
         <textarea id="op_rsa_pub_key"></textarea>
         <button onclick="encryptAESKey()">加密</button>
         <div id="my_aes_key_str">这里将显示加密后的AES密钥转换为的字符串</div>
-        <button onclick="copy('my_aes_key')">复制</button>
+        <button onclick="copy('my_aes_key_str')">复制</button>
     </div>
     <div class="body_block" id="exist_when_aes_ready"><!--总算可以用正常的AES密钥加密东西了-->
         <div><!--向文本框中写入数据，点加密按钮，加密的内容显示在右边的span中-->
@@ -47,12 +48,14 @@
             <textarea id="text"></textarea>
             <button onclick="encryptText()">加密</button>
             <span id="encrypted_text"></span>
+            <button onclick="copy('encrypted_text')">复制</button>
         </div>
         <div><!--向文本框中写入对面发来的密文，点解密按钮，解密的内容显示在右边的span中-->
             <div>向文本框中写入对面发来的密文，点解密按钮，解密的内容显示在右边</div>
             <textarea id="op_encrypted_text"></textarea>
             <button onclick="decryptText()">解密</button>
-            <span id="decryptd_text"></span>
+            <span id="decrypted_text"></span>
+            <button onclick="copy('decryptd_text')">复制</button>
         </div>
 
         <div><!--点击左边的区域，选择文件，点击加密选择保存加密的文件的位置-->
