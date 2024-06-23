@@ -1,4 +1,5 @@
-# rustwasm/.idea
-# rustwasm/target
-# rustwasm/pkg
-# rustwasm/.cargo
+rustwasm/.idea
+rustwasm/target
+rustwasm/pkg
+rustwasm/.cargo
+rustwasm/tests
