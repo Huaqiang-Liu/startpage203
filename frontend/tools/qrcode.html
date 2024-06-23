@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>二维码嵌入图片工具</title>
+</head>
+<link rel="stylesheet" href="../style.css">
+<script type="module" src="../script/qrcode.js"></script>
+<body>
+    <div class="topbar">
+        <span onclick="window.location.href='../index.html'">
+            返回主页
+        </span>
+    </div>
+    <div class="body_block">
+        <!--上传图片-->请先上传二维码图片和背景图片
+        <input type="file" id="qrcode_image" accept="image/*">
+        <input type="file" id="background_image" accept="image/*">
+    </div>
+    <!--显示处理后的图像-->
+    <div class="body_block">
+        这里将显示合成后的图像：
+        <img id="result">
+    </div>
+</body>
+</html>

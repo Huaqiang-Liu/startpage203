@@ -80,28 +80,25 @@ contrast.addEventListener('click', function() {
     document.getElementById("not_compress").style.display = "block";
 }, false);
 
-// id="size"的input表单检查：不能<=10kb，不能>原图大小
-var size = document.getElementById('size');
-size.addEventListener('input', function() {
-    if (size.value <= 10 || size.value > file_size) {
-        alert("请输入大于10KB且小于原图大小的数值");
-        size.value = "";
-    }
-}, false);
-
 
 document.getElementById('process').addEventListener('click', async () => {
     const fileInput = document.getElementById('image');
     const ratio = parseInt(document.getElementById('ratio').value);
     var mode;
     if (document.getElementById('compress').checked) {
-        mode = 1;
+        mode = 0;
+        // id="size"的input表单检查：不能<=10kb，不能>原图大小
+        if (size.value <= 10 || size.value > file_size) {
+            alert("请输入大于10KB且小于原图大小的数值");
+            size.value = "";
+            return;
+        }
     } else if (document.getElementById('gray').checked) {
-        mode = 2;
+        mode = 1;
     } else if (document.getElementById('sharp').checked) {
-        mode = 3;
+        mode = 2;
     } else if (document.getElementById('contrast').checked) {
-        mode = 4;
+        mode = 3;
     }
 
     if (fileInput.files.length === 0) {

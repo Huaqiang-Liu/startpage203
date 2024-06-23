@@ -2,9 +2,11 @@ mod utils;
 pub use utils::*;
 
 mod encrypt;
-mod image; // 和use语句的区别：use是引入模块，而mod是声明模块。声明了之后，才能在其他地方使用use引入。
+mod image;
+mod qrcode; // 和use语句的区别：use是引入模块，而mod是声明模块。声明了之后，才能在其他地方使用use引入。
 pub use encrypt::*; // 重导出到lib.rs这个根模块，以便js使用
 pub use image::*;
+pub use qrcode::*;
 
 use wasm_bindgen::prelude::*;
 
