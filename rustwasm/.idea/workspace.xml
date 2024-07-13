@@ -8,11 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90b994b4-d6d2-494b-bd21-c5a8d9a2c8bd" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/src/qrcode.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/script/processimage.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/script/processimage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,6 +115,8 @@
       <workItem from="1719068821019" duration="1671000" />
       <workItem from="1719070559131" duration="21329000" />
       <workItem from="1719160236695" duration="3201000" />
+      <workItem from="1720245418626" duration="1000" />
+      <workItem from="1720759040699" duration="1826000" />
     </task>
     <servers />
   </component>
