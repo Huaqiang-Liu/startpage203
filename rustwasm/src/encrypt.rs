@@ -72,29 +72,29 @@ pub fn gen_aes() -> (Vec<u8>, Aes256Gcm) {
     (key.to_vec(), cipher)
 }
 
-// RSA加密的AES，AES加密的数据，都有可能出现乱码，所以传输时应转换为形如"114,514"的字符串
+// RSA加密的AES，AES加密的数据，都有可能出现乱码，所以传输时应转换为形如"12AB"的字符串，每个字符是16进制
+// 数，两个16进制数表示一个字节。这个函数将这样的字符串转换为对应的字节串
 #[wasm_bindgen]
 pub fn str_to_bytes(data_str: &str) -> Vec<u8> {
-    // data_str形如"114,514"，将其转为字节串
     let mut data = Vec::new();
-    let mut num = 0;
-    for c in data_str.chars() {
-        if c == ',' {
-            data.push(num);
-            num = 0;
-        } else if c.is_digit(10) {
-            num = num * 10 + c.to_digit(10).unwrap() as u8;
-        }
+    let data_str_len = data_str.len();
+    for i in 0..data_str_len/2 {
+        let byte = u8::from_str_radix(&data_str[2*i..2*i+2], 16).unwrap();
+        data.push(byte);
     }
-    data.push(num);
     data
 }
 #[wasm_bindgen]
 pub fn bytes_to_str(data: &[u8]) -> String {
-    data.iter().map(|x| x.to_string()).collect::<Vec<String>>().join(",")
+    // 一个字节转为两个16进制数，比如255这个u8数，转换为"FF"
+    let mut data_str = String::new();
+    for byte in data {
+        data_str.push_str(&format!("{:02X}", byte));
+    }
+    data_str
 }
 
-// 把别人的RSA公钥字符串保存到DATA，然后加密我的256位AES密钥，返回加密后并转为形如"114,514"的字符串
+// 把别人的RSA公钥字符串保存到DATA，然后加密我的256位AES密钥，返回加密后并转为形如"12AB"的字符串
 #[wasm_bindgen]
 pub fn encrypt_aes_by_rsa(pub_key_str: &str) -> String {
     let pub_key = RsaPublicKey::from_pkcs1_pem(pub_key_str).unwrap();
@@ -116,7 +116,7 @@ pub fn rsa_pub_key_to_string() -> String {
     pkcs1::EncodeRsaPublicKey::to_pkcs1_pem(pub_key, pkcs1::LineEnding::default()).unwrap()
 }
 
-// 由于加密了的AES密钥不都是可见字符，所以传输时会传送形如"114,514"的字符串，需要将其转为字节串，
+// 由于加密了的AES密钥不都是可见字符，所以传输时会传送形如"12AB"的字符串，需要将其转为字节串，
 // 解密，保存到DATA中
 #[wasm_bindgen]
 pub fn str_to_aes(encrypted_aes_str: &str) {

@@ -1,6 +1,19 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
+* @param {Uint8Array} background_data
+* @param {Uint8Array} qrcode_data
+* @returns {Uint8Array}
+*/
+export function merge_image(background_data: Uint8Array, qrcode_data: Uint8Array): Uint8Array;
+/**
+*/
+export function save_favor_sites_to_file(): void;
+/**
+* @returns {any}
+*/
+export function load_favor_sites_from_file(): any;
+/**
 */
 export function test_wasm(): void;
 /**
@@ -45,12 +58,6 @@ export function encrypt_by_aes(data: Uint8Array): Uint8Array;
 */
 export function decrypt_by_aes(data: Uint8Array): Uint8Array;
 /**
-* @param {Uint8Array} background_data
-* @param {Uint8Array} qrcode_data
-* @returns {Uint8Array}
-*/
-export function merge_image(background_data: Uint8Array, qrcode_data: Uint8Array): Uint8Array;
-/**
 * @param {Uint8Array} file_data
 * @param {number} mode
 * @param {number} ratio
@@ -58,18 +65,14 @@ export function merge_image(background_data: Uint8Array, qrcode_data: Uint8Array
 * @returns {Uint8Array}
 */
 export function process_image(file_data: Uint8Array, mode: number, ratio: number, size: number): Uint8Array;
-/**
-*/
-export function save_favor_sites_to_file(): void;
-/**
-* @returns {any}
-*/
-export function load_favor_sites_from_file(): any;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
+  readonly merge_image: (a: number, b: number, c: number, d: number, e: number) => void;
+  readonly save_favor_sites_to_file: () => void;
+  readonly load_favor_sites_from_file: () => number;
   readonly test_wasm: () => void;
   readonly init_page: (a: number) => void;
   readonly str_to_bytes: (a: number, b: number, c: number) => void;
@@ -80,14 +83,11 @@ export interface InitOutput {
   readonly check_data: () => number;
   readonly encrypt_by_aes: (a: number, b: number, c: number) => void;
   readonly decrypt_by_aes: (a: number, b: number, c: number) => void;
-  readonly merge_image: (a: number, b: number, c: number, d: number, e: number) => void;
   readonly process_image: (a: number, b: number, c: number, d: number, e: number, f: number) => void;
-  readonly save_favor_sites_to_file: () => void;
-  readonly load_favor_sites_from_file: () => number;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
-  readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
   readonly __wbindgen_free: (a: number, b: number, c: number) => void;
+  readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
   readonly __wbindgen_exn_store: (a: number) => void;
 }
 
