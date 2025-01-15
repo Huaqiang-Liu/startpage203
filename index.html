@@ -56,28 +56,14 @@
         填上网址和缩写，然后点确定，就会在主界面上出现一个新的方形按钮，点击这个按钮就会跳转到你刚刚填的网址。
         按钮下方放一个小按钮，上面写个×，点击删掉这个class="site"的标签。缩写显示在方形按钮上。按钮靠左放置-->
         <!-- <span class="site" id="add_site" onclick="showAddSiteWindow()">+</span> -->
-        <!--根据下面js代码先画一个样板元素，存淘宝网
-            var new_site = document.createElement("span");
-            new_site.className = "site";
-            var new_site_name = document.createElement("span");
-            new_site_name.innerText = site_name;
-            new_site_name.onclick = openSite; // 打开这个div所在的span（class="site）中的class="site_url"的div中的网址
-            new_site.appendChild(new_site_name);
-            var new_site_url = document.createElement("span");
-            new_site_url.className = "site_url";
-            new_site_url.style.display = "none";
-            new_site_url.innerText = site_url;
-            new_site.appendChild(new_site_url);
-            var new_del_site = document.createElement("span");
-            new_del_site.className = "del_site";
-            new_del_site.innerText = "×";
-            new_del_site.onclick = delSite;
-            new_site.appendChild(new_del_site);
-            var favor_sites = document.getElementById("favor_sites");
-            favor_sites.insertBefore(new_site, favor_sites.lastChild);-->
-
-            <span class="site" id="taobao" onclick="openSite('https://www.taobao.com/')">淘宝</span>
-            <span class="site" id="jd" onclick="openSite('https://www.jd.com/')">京东</span>
+        <span class="site" id="taobao" onclick="openSite()">
+            淘宝
+            <div class="site_url" style="display: none;">https://www.taobao.com/</div>
+        </span>
+        <span class="site" id="jd" onclick="openSite()">
+            京东
+            <div class="site_url" style="display: none;">https://www.jd.com/</div>
+        </span>
     </div>
 
     <div class="body_block">
